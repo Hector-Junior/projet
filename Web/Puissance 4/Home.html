@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./Style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <a href="../Home.html">Home</a>
+    </div>
+    <div class="jeu">
+    <h1>Puissance4</h1>
+    <div class="cache"></div>
+    <div class="plateau">
+    </div>
+    <h3 class="premierajouer">Qui commence à jouer ? </h3>
+    <div class="premieràjouer">
+        <input type="button" class="yellowfirst" value="Yellow">
+        <input type="button" class="redfirst" value="Red">
+    </div>
+    <h3 class="point"></h3>
+    <input class="again" type="button" value="Continuer ?">
+    <div class="scores">
+
+        <div class="scoreJ">
+            <h3>Jaune</h3>
+            <h3 class="pointJ">0</h3>
+        </div>
+        <div class="scoreR">
+            <h3>Rouge</h3>
+            <h3 class="pointR">0</h3>
+        </div>
+
+    </div>
+</div>
+</body>
+<script src="./jquery-3.6.0.min.js"></script>
+<script>
+    var grille = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+    ];
+
+    /*[0,0,0,0,0,0],
+     [0,0,0,0,0,0],
+     [0,0,0,0,0,0],
+     [0,0,0,0,0,0],
+     [0,0,0,0,0,0],
+     [0,0,0,0,0,0],
+     [0,0,0,0,0,0]
+    ];*/
+
+    scoreJ = 0;
+    scoreR = 0;
+    peutjouer = true;
+    // Créer le plateau de jeu 
+    for (i = 6; i >= 0; i--) {
+        $(".plateau").prepend("<div class='colonne" + i + " bande'></div>")
+    }
+    for (k = 6; k >= 0; k--) {
+        for (l = 5; l >= 0; l--) {
+            $(".colonne" + k).prepend("<h2 class='ligne" + l + "'></h2>")
+        }
+    }
+
+
+    // selectionne visuellement la où on mettre notre jeton
+    $(".bande").mouseenter(function () {
+        $(this).css("border-left", "4px solid greenyellow");
+        $(this).css("border-right", "4px solid greenyellow");
+
+    })
+    $(".bande").mouseleave(function () {
+        $(this).css("border-left", "4px solid blue");
+        $(this).css("border-right", "4px solid blue");
+
+    })
+
+
+    // Détermine qui joue en premier
+    $(".yellowfirst").click(function () {
+        indiceJ = 2
+        $(".premierajouer").css("display", "none")
+        $(".premieràjouer").css("display", "none")
+    })
+    $(".redfirst").click(function () {
+        indiceJ = 1
+        $(".premierajouer").css("display", "none")
+        $(".premieràjouer").css("display", "none")
+    })
+
+
+    // Permet de jouer
+   
+        $(".colonne0").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(0, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()            
+            }
+        })
+        $(".colonne1").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(1, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()            
+            }
+        })
+        $(".colonne2").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(2, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()
+            }
+        })
+        $(".colonne3").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(3, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()
+            }
+        })
+        $(".colonne4").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(4, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()
+            }
+        })
+        $(".colonne5").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(5, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()
+            }
+        })
+        $(".colonne6").click(function () {
+            if (indiceJ != 0) {
+            switchColor()
+            rajouteColonne(6, grille, indiceJ);
+            parcourGrille(grille)
+            fullornot()
+            didIwin()
+            
+            }
+        })
+
+        $(".again").click(function () {
+            again()
+        })
+    
+
+
+
+
+    function points(who) {
+        if (who == 1) {
+            $(".pointJ").html(scoreJ)
+        } else {
+            $(".pointR").html(scoreR)
+        }
+    }
+
+    function winner(who) {
+        if (who == 1) {
+            $(".point").css("display", "block")
+            $(".point").html("Jaune a gagné ce point !!")
+            $(".again").css("display", "block")
+            scoreJ++
+            points(who)
+            
+        } else if (who == 2) {
+            $(".point").css("display", "block")
+            $(".point").html("Rouge a gagné ce point !!")
+            $(".again").css("display", "block")
+            scoreR++
+            points(who)
+            
+        }
+        else{
+            $(".point").css("display", "block")
+            $(".point").html("Egalité !!")
+            $(".again").css("display", "block")
+            points(who)
+        }
+        peutjouer = false;
+
+    }
+    function again() {
+        peutjouer = true;
+        $(".premierajouer").css("display", "block")
+        $(".premieràjouer").css("display", "block")
+        $(".again").css("display", "none")
+        $(".point").css("display", "none")
+        indiceJ = 0
+        for (i = 0; i < grille.length; i++) {
+            for (j = 0; j < grille[i].length; j++) {
+                grille[i][j] = 0
+            }
+        }
+        parcourGrille(grille)
+    }
+
+
+    function didIwin() {
+        for (i = 0; i < grille.length && peutjouer; i++) {
+            for (j = 0; j < grille[i].length; j++) {
+
+                if (grille[i][j] == grille[i + 1][j] && grille[i][j] == grille[i + 2][j] && grille[i][j] == grille[i + 3][j] && grille[i][j] != 0) {
+                    winner(grille[i][j])
+                    return
+                }
+                else if (grille[i][j] == grille[i][j + 1] && grille[i][j] == grille[i][j + 2] && grille[i][j] == grille[i][j + 3] && grille[i][j] != 0) {
+                    winner(grille[i][j])
+                    return
+                }
+                else if (grille[i][j] == grille[i + 1][j + 1] && grille[i][j] == grille[i + 2][j + 2] && grille[i][j] == grille[i + 3][j + 3] && grille[i][j] != 0) {
+                    winner(grille[i][j])
+                    return
+                }
+                /* else if( j > 2 && i < 4 ){*/
+                else if (grille[i][j] == grille[i + 1][j - 1] && grille[i][j] == grille[i + 2][j - 2] && grille[i][j] == grille[i + 3][j - 3] && grille[i][j] != 0) {
+                    winner(grille[i][j])
+                    return
+                }
+            }
+        }
+    }
+
+    // verifie si c'est full 
+    function fullornot(){
+        compteurzero = 0
+        for (i = 0; i < grille.length; i++) {
+            for (j = 0; j < grille[i].length; j++) {
+                if(grille[i][j] == 0){
+                    compteurzero++
+                }
+            }
+        }
+        if(compteurzero == 0){
+            winner(0)
+        }
+    }
+
+
+    // Change la couleur
+    function switchColor() {
+        if (indiceJ == 1) {
+            indiceJ = 2
+        } else {
+            indiceJ = 1
+        }
+    }
+
+
+    // Rajoute un jeton dans la colonne selectionnée
+    function rajouteColonne(i, grille, indiceJ) {
+        for (j = 0; j < grille[i].length && peutjouer; j++) {
+            if (grille[i][0] != 0) {
+                alert("Cette colonne est remplie")
+                return
+            }
+            else if (grille[i][j + 1] != 0 || j + 1 == grille[i].lenght) {
+                grille[i][j] = indiceJ;
+                return
+            }
+
+        }
+    }
+    // Parcours la matrice et l'affiche
+    function parcourGrille(grille) {
+        for (i = 0; i < grille.length; i++) {
+            for (j = 0; j < grille[i].length; j++) {
+                if (grille[i][j] == 0) {
+                    $(".colonne" + i + " > .ligne" + j + "").css("background-color", "aliceblue")
+                    $(".colonne" + i + " > .ligne" + j + "").css("color", "aliceblue")
+
+
+                } else if (grille[i][j] == 1) {
+                    $(".colonne" + i + " > .ligne" + j + "").css("background-color", "yellow")
+                    $(".colonne" + i + " > .ligne" + j + "").css("color", "yellow")
+
+                }
+                else if (grille[i][j] == 2) {
+                    $(".colonne" + i + " > .ligne" + j + "").css("background-color", "red")
+                    $(".colonne" + i + " > .ligne" + j + "").css("color", "red")
+
+                }
+            }
+        }
+
+
+    }
+
+
+</script>
+
+</html>
+<!--
+                                             /\
+                                            /_|\
+                                           /____\
+                                          /.-""-.\
+                                         /< (()) >\
+                                        /__`-..-'__\
+                                       /___|____|___\
+
+                                 HECTOR JR IS WATCHING YOU
+                                 ᗡƎIℲSI⊥∀S ⊥ON SI ƎH ᗡN∀
+                                      ________________
+                                   ,'/____|_____|_____\
+                                  / /__|_____|_____|___\
+                                 / /|_____|_____|_____|_\
+                                ' /____|_____|_____|_____\
+                              .' /__|_____|_____|_____|___\
+                             ,' /|_____|_____|_____|_____|_\
+                            /../____|_____|_____|_____|_____\
+                           '../__|_____|_____|_____|_____|___\
+                          '.:/|_____|_____|_____|_____|_____|_\
+   {\__/}               ,':./____|_____|_____|_____|_____|_____\         * ʞϽ*Ⅎ  </
+   (._.)               /:../__|_____|_____|_____|_____|_____|___\              (˙‾˙)
+    />  F*CK *        /.../|_____|_____|_____|_____|_____|_____|_\            {/‾‾\}
+                     '..:/____|_____|_____|_____|_____|_____|_____\
+                     \:./ _  _ ___  ____ ____ _    _ _ _ _ _  _ ___\
+                     \./                                             \
+                      """"""""""""""""""""""""""""""""""""""""""""""""
+
+
+-->

@@ -1,0 +1,23 @@
+.peinture{
+    border: 2px solid black;
+    border-radius: 7px;
+}
+
+.skin > div {
+    
+    padding: 5px;
+    margin: 0px;
+}
+
+.skin{
+    display: flex;
+    flex-direction: row;
+}
+
+.bidule{
+    display: flex;
+    flex-direction: row;
+}
+.bidule > * {
+    margin: 5px;
+}
