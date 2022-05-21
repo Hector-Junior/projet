@@ -1,0 +1,41 @@
+body{
+    background-color: whitesmoke;
+}
+.liste{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.titre,.touslesproduits{
+    text-align: center;
+}
+
+.liens{
+    display: flex;
+    align-items: flex-end;
+
+}
+a{
+    align-items: center;
+    color: lawngreen;
+}
+
+.cadre{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: antiquewhite 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    width: 20%;
+}
+
+.gif{
+    border-bottom-left-radius: 20px ;
+    border-bottom-right-radius: 20px ;
+    width: 100%;
+}
+
+/* hover puis deviens un gif pendant 4sec puis redeviens une image */
+
